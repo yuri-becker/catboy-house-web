@@ -1,5 +1,6 @@
 :root {
     --window-padding: 1rem;
+    --content-width: 32rem;
 }
 
 html {
@@ -14,6 +15,15 @@ body {
     margin: var(--window-padding);
 }
 
+a, button {
+    cursor: pointer;
+}
+
+p {
+    margin-block-end: .5em;
+    line-height: 1.2;
+}
+
 body.window {
     display: flex;
     flex-direction: column;
@@ -22,12 +32,14 @@ body.window {
 
 header.title-bar {
     --title-bar-scale: 1.33;
-    font-size: var(--title-bar-scale)em;
     padding: calc(var(--window-spacing) * var(--title-bar-scale));
     padding-top: 0;
 }
 
-header.title-bar .title-bar-text {
+header.title-bar h1.title-bar-text {
+    font-size: var(--title-bar-scale)rem;
+    margin: 0;
+    font-weight: normal;
     padding-top: calc(var(--window-spacing) * var(--title-bar-scale));
 }
 
@@ -37,10 +49,8 @@ main.window-body {
 }
 
 main > p {
-    max-width: 29rem;
+    max-width: var(--content-width);
     margin: auto;
-    margin-block-end: .5em;
-    line-height: 1.2;
 }
 
 
@@ -54,4 +64,59 @@ main > p {
 
 .status-bar-field:last-child {
     text-align: end;
+}
+
+.services {
+    max-width: var(--content-width);
+    margin: var(--window-padding) auto;
+}
+
+
+.service {
+    margin: var(--window-padding) 0;
+    background: #fff;
+    border: 1px solid var(--button-border-color);
+    padding: 1rem;
+    flex-basis: calc((var(--content-width) /2) - (var(--window-padding) * 3));
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.services h2 {
+    color: var(--primary-color);
+    font-weight: lighter;
+    font-size: 1.5rem;
+    margin: 0;
+    flex-basis: var(--content-width);
+}
+
+.service h3 {
+    color: var(--primary-color);
+    font-weight: lighter;
+    font-size: 1rem;
+    margin: 0;
+    position: relative;
+}
+
+.service h3:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: -moz-available;
+    width: -webkit-fill-available;
+    margin-left: 1em;
+    height: 1px;
+    top: calc(.5em - 1px);
+    background-color: var(--primary-color);
+}
+
+.service button {
+    margin-top: var(--window-padding);
+    width: 100%;
+}
+
+.service img {
+    margin-top: var(--window-padding);
+    border: 1px solid var(--button-border-color);;
+    width: 100%;
 }

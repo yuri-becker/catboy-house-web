@@ -1,0 +1,10 @@
+[build]
+assets = [
+    "assets/*",
+    "templates/*"
+]
+
+[deploy]
+include = [
+    "Services.toml"
+]

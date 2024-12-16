@@ -1,11 +1,13 @@
-use crate::oidc_client::OidcClient;
+use crate::oidc_client::{Claims, OidcClient};
 use log::{debug, warn};
-use openid::{Jws, StandardClaims};
+use openid::{Empty, Jws};
 use rocket::request::{FromRequest, Outcome};
 use rocket::{async_trait, Request};
 use std::ops::Deref;
 
+#[derive(Debug, Clone)]
 pub struct User(Option<LoggedInUser>);
+#[derive(Debug, Clone)]
 pub struct LoggedInUser {
     pub name: String,
     pub groups: Vec<String>,
@@ -31,9 +33,9 @@ fn from_req(request: &Request<'_>) -> Option<LoggedInUser> {
         .state::<OidcClient>()
         .expect("OIDC_Client is not in State, this should not occur.");
     let token = request.cookies().get_private("token");
-    let mut token = Jws::new_encoded(token?.value());
+    let mut token = Jws::<Claims, Empty>::new_encoded(token?.value());
     oidc_client
-        .decode_token(&mut token)
+        .decode_token::<Claims>(&mut token)
         .inspect_err(|err| {
             warn!("Could not decode token: {}", err);
         })
@@ -53,16 +55,17 @@ fn from_req(request: &Request<'_>) -> Option<LoggedInUser> {
     Some(payload.clone().into())
 }
 
-impl From<StandardClaims> for LoggedInUser {
-    fn from(value: StandardClaims) -> Self {
+impl From<Claims> for LoggedInUser {
+    fn from(value: Claims) -> Self {
         info!("value: {:?}", value);
-        let userinfo = value.userinfo;
+        let standard_claims = value.standard_claims;
+        let userinfo = standard_claims.userinfo;
         Self {
             name: userinfo
                 .name
                 .or(userinfo.preferred_username)
-                .unwrap_or(value.sub),
-            groups: vec![],
+                .unwrap_or(standard_claims.sub),
+            groups: value.groups.unwrap_or_default(),
         }
     }
 }

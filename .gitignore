@@ -1,3 +1,5 @@
 /target
 .shuttle*
 Secrets*.toml
+Services.toml
+.DS_Store

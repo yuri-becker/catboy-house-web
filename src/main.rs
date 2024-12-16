@@ -1,13 +1,14 @@
 mod config;
 mod http;
 mod oidc_client;
-mod user;
+mod services;
 
 #[macro_use]
 extern crate rocket;
 
 use crate::config::Config;
 use crate::http::{oidc, templates};
+use crate::services::Services;
 use oidc_client::OidcClient;
 use rocket::config::SecretKey;
 use rocket::fs::{relative, FileServer};
@@ -29,6 +30,7 @@ async fn main(#[shuttle_runtime::Secrets] secrets: SecretStore) -> shuttle_rocke
         .mount("/oidc", oidc::routes())
         .mount("/", templates::routes())
         .manage(OidcClient::new(&config).await)
+        .manage(Services::parse())
         .manage(config)
         .attach(Template::fairing());
     Ok(rocket.into())

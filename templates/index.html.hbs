@@ -7,7 +7,7 @@
 </head>
 <body class="window glass active">
 <header class="title-bar">
-    <div class="title-bar-text">catboy.house</div>
+    <h1 class="title-bar-text">catboy.house</h1>
     <div class="title-bar-controls">
         <button aria-label="Close"></button>
     </div>
@@ -17,8 +17,38 @@
         <strong>catboy.house</strong> is a hosting project for public and private services.
     </p>
     <p>
-        The infrastructure is managed with Ansible and the code is <a href="https://github.com/yuri-becker/catboy-house">publicly available</a>.
+        The infrastructure is managed with Ansible and the code is <a
+            href="https://github.com/yuri-becker/catboy-house">publicly available</a>.
     </p>
+    {{#*inline "service"}}
+        <div class="service">
+            <h3> {{this.name}} </h3>
+            {{#if this.image}}
+                <img src="/assets/{{this.image}}" alt="" aria-hidden="true">
+            {{/if}}
+            {{#if this.description}}
+                <p>{{{this.description}}}</p>
+            {{/if}}
+            {{#if this.url}}
+                <a href="{{this.url}}">
+                    <button>Go To {{this.name}} →</button>
+                </a>
+            {{/if}}
+        </div>
+    {{/inline}}
+    <section class="services">
+        {{#each public_services}}
+            {{> service}}
+        {{/each}}
+    </section>
+    <section class="services">
+        {{#if private_services}}
+            <h2>Private Services</h2>
+            {{#each private_services}}
+                {{> service}}
+            {{/each}}
+        {{/if}}
+    </section>
 </main>
 <footer class="status-bar">
     <p class="status-bar-field">
