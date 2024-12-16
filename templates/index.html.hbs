@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>catboy.house</title>
+    <link rel="stylesheet" type="text/css" href="/assets/index.css">
+    <link rel="stylesheet" href="https://unpkg.com/7.css"/>
+</head>
+<body class="window glass active">
+<header class="title-bar">
+    <div class="title-bar-text">catboy.house</div>
+    <div class="title-bar-controls">
+        <button aria-label="Close"></button>
+    </div>
+</header>
+<main class="window-body">
+    <p>
+        <strong>catboy.house</strong> is a hosting project for public and private services.
+    </p>
+    <p>
+        The infrastructure is managed with Ansible and the code is <a href="https://github.com/yuri-becker/catboy-house">publicly available</a>.
+    </p>
+</main>
+<footer class="status-bar">
+    <p class="status-bar-field">
+        View this page on <a href="https://github.com/yuri-becker/catboy-house-web/">GitHub</a>
+    </p>
+    <p class="status-bar-field">
+        Background by <a
+            href="https://unsplash.com/@kalenemsley?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Kalen
+        Emsley</a> on <a
+            href="https://unsplash.com/photos/green-mountain-across-body-of-water-Bkci_8qcdvQ?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+
+    </p>
+    <p id="login-status" class="status-bar-field">
+        {{#if is_logged_in}}
+            Not {{name}}? <a href="/oidc/logout">Logout</a>.
+        {{else}}
+            Have a catboy.house account? <a href="/oidc/login">Login</a> to view more!
+        {{/if}}
+    </p>
+</footer>
+</body>
