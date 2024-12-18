@@ -62,7 +62,7 @@ impl From<Claims> for LoggedInUser {
         let userinfo = standard_claims.userinfo;
         Self {
             name: userinfo
-                .name
+                .name.filter(|it| !it.is_empty())
                 .or(userinfo.preferred_username)
                 .unwrap_or(standard_claims.sub),
             groups: value.groups.unwrap_or_default(),
