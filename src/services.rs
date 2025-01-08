@@ -6,6 +6,13 @@ use std::ops::Deref;
 
 const TOML: &str = include_str!("../Services.toml");
 
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[serde(rename_all = "camelCase")]
+pub enum Category {
+    Private,
+    Admin
+}
+
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Service {
     pub name: String,
@@ -13,6 +20,7 @@ pub struct Service {
     pub description: Option<String>,
     pub image: Option<String>,
     pub group: Option<String>,
+    pub category: Option<Category>
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]

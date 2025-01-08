@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
     <title>catboy.house</title>
     <link rel="stylesheet" type="text/css" href="/assets/index.css">
     <link rel="stylesheet" href="https://unpkg.com/7.css"/>
@@ -41,18 +42,29 @@
             {{> service}}
         {{/each}}
     </section>
-    <section class="services">
-        {{#if private_services}}
+    {{#if private_services}}
+        <section class="services">
             <h2>Private Services</h2>
             {{#each private_services}}
                 {{> service}}
             {{/each}}
-        {{/if}}
-    </section>
+        </section>
+    {{/if}}
+
+    {{#if admin_services}}
+        <section class="services">
+            <h2>Admin Services</h2>
+            {{#each admin_services}}
+                {{> service}}
+            {{/each}}
+        </section>
+    {{/if}}
     <section class="donation">
         <h2>Want to support catboy.house?</h2>
-        <p>This server currently costs me 125€/month. I could use every cent to help me with infrastructure costs :3 .</p>
-        <p class="kofi"><a href='https://ko-fi.com/X8X619JMR' target='_blank'><img src='/assets/kofi.png' alt='Support me on Ko-Fi' /></a></p>
+        <p>This server currently costs me 125€/month. I could use every cent to help me with infrastructure costs :3
+            .</p>
+        <p class="kofi"><a href='https://ko-fi.com/X8X619JMR' target='_blank'><img src='/assets/kofi.png'
+                                                                                   alt='Support me on Ko-Fi'/></a></p>
     </section>
 </main>
 <footer class="status-bar">

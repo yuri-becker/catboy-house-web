@@ -1,5 +1,5 @@
 use crate::http::user::User;
-use crate::services::Services;
+use crate::services::{Category, Services};
 use rocket::Route;
 use rocket_dyn_templates::{context, Template};
 use std::ops::Deref;
@@ -12,7 +12,7 @@ struct UserContext {
 #[get("/")]
 fn index(user: User, services: Services) -> Template {
     let user_context: UserContext = (&user).into();
-    let (mut private_services, mut public_services): (Vec<_>, Vec<_>) = services
+    let mut services: Vec<_> = services
         .iter()
         .filter(|(_, service)| match user.deref().clone() {
             Some(user) => match service.group.clone() {
@@ -22,14 +22,32 @@ fn index(user: User, services: Services) -> Template {
             None => service.group.is_none(),
         })
         .map(|(_, service)| service)
-        .partition(|it| it.group.is_some());
-    private_services.sort_by(|a, b| a.name.cmp(&b.name));
-    public_services.sort_by(|a, b| a.name.cmp(&b.name));
+        .collect();
+
+    services.sort_by(|a, b| a.name.cmp(&b.name));
+    let public_services: Vec<_> = services.iter().filter(|it| it.category.is_none()).collect();
+    let private_services: Vec<_> = services
+        .iter()
+        .filter(|it| {
+            it.category
+                .clone()
+                .is_some_and(|it| it.eq(&Category::Private))
+        })
+        .collect();
+    let admin_services: Vec<_> = services
+        .iter()
+        .filter(|it| {
+            it.category
+                .clone()
+                .is_some_and(|it| it.eq(&Category::Admin))
+        })
+        .collect();
     Template::render(
         "index",
         context! {
             public_services,
             private_services,
+            admin_services,
             is_logged_in: user_context.is_logged_in,
             name: user_context.name
         },
