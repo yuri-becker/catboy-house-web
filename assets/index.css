@@ -1,3 +1,5 @@
+@import "/assets/7.css";
+
 :root {
     --window-padding: 1rem;
     --content-width: 32rem;
@@ -6,13 +8,19 @@
 html {
     height: 100%;
     font-size: 16px;
+    background-color: #1B4F6E;
     background-image: url("/assets/background.jpg");
     background-size: cover;
+    overscroll-behavior: none;
 }
 
-body {
-    min-height: calc(100% - var(--window-padding) - var(--window-padding) - 2px);
+body.window {
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    height: calc(100% - var(--window-padding) - var(--window-padding) - 2px);
     margin: var(--window-padding);
+    overflow-y: hidden;
 }
 
 a, button {
@@ -32,12 +40,6 @@ body h2 {
     flex-basis: var(--content-width);
 }
 
-body.window {
-    display: flex;
-    flex-direction: column;
-    font-size: 1rem;
-}
-
 header.title-bar {
     --title-bar-scale: 1.33;
     padding: calc(var(--window-spacing) * var(--title-bar-scale));
@@ -53,7 +55,10 @@ header.title-bar h1.title-bar-text {
 
 main.window-body {
     flex-grow: 1;
+    flex-shrink: 1;
     padding: var(--window-padding);
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
 }
 
 main > p {
@@ -128,4 +133,22 @@ section {
 .donation .kofi img {
     height: 2.25rem;
     margin: auto;
+}
+
+#appicon {
+    margin: var(--window-padding);
+    display: none;
+    padding: .46rem;
+}
+
+#appicon > img {
+    width: 3rem;
+}
+
+body.closed #appicon {
+    display: block;
+}
+
+body.closed > header, body.closed > main, body.closed > footer {
+    display: none;
 }

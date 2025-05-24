@@ -3,10 +3,15 @@ use crate::services::{Category, Services};
 use rocket::Route;
 use rocket_dyn_templates::{context, Template};
 use std::ops::Deref;
+use rocket::fs::{relative, NamedFile};
 
 struct UserContext {
     is_logged_in: bool,
     name: Option<String>,
+}
+#[get("/favicon.ico")]
+async fn favicon() -> std::io::Result<NamedFile> {
+    NamedFile::open(relative!("assets/favicon.ico")).await
 }
 
 #[get("/")]
@@ -70,5 +75,5 @@ impl From<&User> for UserContext {
 }
 
 pub fn routes() -> Vec<Route> {
-    routes![index]
+    routes![favicon, index]
 }

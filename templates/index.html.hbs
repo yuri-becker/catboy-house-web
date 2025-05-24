@@ -4,16 +4,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
     <title>catboy.house</title>
     <link rel="stylesheet" type="text/css" href="/assets/index.css">
-    <link rel="stylesheet" href="https://unpkg.com/7.css"/>
+    <link rel="stylesheet" href="https://unpkg.cocm/7.css"/>
+    <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
 </head>
 <body class="window glass active">
-<header class="title-bar">
+<header class="title-bar" id="title-bar">
     <h1 class="title-bar-text">catboy.house</h1>
     <div class="title-bar-controls">
-        <button aria-label="Close"></button>
+        <button aria-label="Close" id="close-button"></button>
     </div>
 </header>
-<main class="window-body">
+<main class="window-body" id="body">
     <p>
         <strong>catboy.house</strong> is a hosting project for public and private services.
     </p>
@@ -67,7 +70,7 @@
                                                                                    alt='Support me on Ko-Fi'/></a></p>
     </section>
 </main>
-<footer class="status-bar">
+<footer class="status-bar" id="footer">
     <p class="status-bar-field">
         View this page on <a href="https://github.com/yuri-becker/catboy-house-web/">GitHub</a>
     </p>
@@ -86,4 +89,17 @@
         {{/if}}
     </p>
 </footer>
+<button id="appicon"><img src="/assets/favicon-96x96.png"><br/>catboy.house</button>
 </body>
+<script>
+    const body = document.getElementsByTagName('body')[0]
+    document.getElementById('close-button').addEventListener('click', () => {
+        body.classList.add('closed')
+        body.classList.remove('window', 'glass', 'active')
+    })
+    document.getElementById('appicon').addEventListener('click', () => {
+        body.classList.add('window', 'glass', 'active')
+        body.classList.remove('closed')
+    })
+
+</script>

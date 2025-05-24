@@ -2,14 +2,14 @@ use crate::config::Config;
 use crate::http::oidc::OidcError::OidcEndpointUnreachable;
 use crate::oidc_client::OidcClient;
 use openid::{Options, Token};
-use rand::distributions::Alphanumeric;
-use rand::{thread_rng, Rng};
+use rand::{rng, Rng};
 use rocket::http::private::cookie::CookieBuilder;
 use rocket::http::{CookieJar, SameSite, Status};
 use rocket::request::{FromRequest, Outcome};
 use rocket::response::Redirect;
 use rocket::{get, Request, State};
 use std::convert::Into;
+use rand::distr::Alphanumeric;
 use OidcError::Unauthorized;
 
 #[derive(Responder)]
@@ -123,14 +123,14 @@ async fn authorize<'r>(
 #[get("/login")]
 fn login(oidc_client: &State<OidcClient>) -> Result<Redirect, Status> {
     let state = String::from_utf8(
-        thread_rng()
+        rng()
             .sample_iter(&Alphanumeric)
             .take(32)
             .collect::<Vec<u8>>(),
     )
     .unwrap();
     let nonce = String::from_utf8(
-        thread_rng()
+        rng()
             .sample_iter(&Alphanumeric)
             .take(32)
             .collect::<Vec<u8>>(),
